@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using SurveyApp.Models;
 using Microsoft.AspNetCore.Cors;
 using System.Collections;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -36,7 +37,15 @@ namespace SurveyApp.Controllers
             var questionList = _context.Question.ToList();
             var answerList = _context.Answer.ToList();
 
-            return Ok(surveyList);
+            SurveyTest surveyTest = new SurveyTest
+            {
+                //TODO:  we're just getting the 1st survey in list
+                Survey = surveyList.First(),
+                AgeList = _context.Age.ToList(),
+                SexList = _context.Sex.ToList()
+            };
+
+            return Ok(surveyTest);
 
             //IQueryable<Survey> survey = from s in _context.Survey
             //select s;
@@ -135,8 +144,25 @@ namespace SurveyApp.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody]List<UserAnswer> userAnswers)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _context.UserAnswer.AddRange(userAnswers);
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                throw;
+            }
+
+            return null;
+            
         }
 
         // PUT api/values/5
