@@ -144,14 +144,20 @@ namespace SurveyApp.Controllers
 
         // POST api/values
         [HttpPost]
-        public IActionResult Post([FromBody]List<UserAnswer> userAnswers)
+        public IActionResult Post([FromBody]SurveyUser surveyUser)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.UserAnswer.AddRange(userAnswers);
+            _context.SurveyUser.Add(new SurveyUser
+            {
+                AgeId = surveyUser.AgeId,
+                SexId = surveyUser.SexId,
+                UserAnswerList = surveyUser.UserAnswerList
+            });
+            //_context.UserAnswer.AddRange(surveyUser.UserAnswerList);
             try
             {
                 _context.SaveChanges();
