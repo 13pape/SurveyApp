@@ -151,22 +151,43 @@ namespace SurveyApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.SurveyUser.Add(new SurveyUser
+            //create a new user
+            var newUser = _context.SurveyUser.Add(new SurveyUser
             {
                 AgeId = surveyUser.AgeId,
-                SexId = surveyUser.SexId,
-                UserAnswerList = surveyUser.UserAnswerList
+                SexId = surveyUser.SexId
             });
-            //_context.UserAnswer.AddRange(surveyUser.UserAnswerList);
+
+            //save the user to the database
             try
             {
                 _context.SaveChanges();
             }
-            catch (DbUpdateException)
+            catch (Exception ex)
             {
                 throw;
             }
 
+            //iterate through each user answer and set the user ID to the user ID that we got back
+            //from the call to save the new user
+            foreach(var userAnswer in surveyUser.UserAnswerList)
+            {
+                userAnswer.SurveyUserId = newUser.Entity.SurveyUserId;
+            }
+            //add all of these user answers to the useranswer repository
+            _context.UserAnswer.AddRange(surveyUser.UserAnswerList);
+
+            //save the changes to the database
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            //return something!!!
             return null;
             
         }
@@ -182,5 +203,17 @@ namespace SurveyApp.Controllers
         public void Delete(int id)
         {
         }
+
+        //private List<string> TestAnalysis()
+        //{
+        //    List<string> results = new List<string>();
+        //    var answers = _context.Answer.ToList();
+        //    foreach(var answer in answers)
+        //    {
+                
+        //    }
+
+        //    return results;
+        //}
     }
 }

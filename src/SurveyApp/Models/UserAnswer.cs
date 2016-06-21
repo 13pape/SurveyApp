@@ -8,7 +8,6 @@ namespace SurveyApp.Models
     public class UserAnswer
     {
         public int UserAnswerId { get; set; }
-        public int QuestionId { get; set; }
         public int AnswerId { get; set; }
         public int SurveyUserId { get; set; }
     }
