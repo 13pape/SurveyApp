@@ -7,6 +7,7 @@ using SurveyApp.Models;
 using Microsoft.AspNetCore.Cors;
 using System.Collections;
 using Microsoft.EntityFrameworkCore;
+using SurveyApp.Analysis;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -187,8 +188,11 @@ namespace SurveyApp.Controllers
                 throw;
             }
 
+            var analysis = new SurveyAnalysis(_context);
+            var results = analysis.GetGeneralResults();
+
             //return something!!!
-            return null;
+            return Ok(results);
             
         }
 
