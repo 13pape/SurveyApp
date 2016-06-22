@@ -71,37 +71,6 @@ namespace SurveyApp.Analysis
             }
 
             return answerResultList;
-
-
-            //var results = from s in _context.Answer
-            //              join que in _context.Question on s.QuestionId equals que.QuestionId
-            //              join ua in _context.UserAnswer on s.AnswerId equals ua.AnswerId
-            //              group new { s, que, ua } by que.QuestionId into userResults
-            //              select userResults.ToList();
-
-            //var answerResultList = new List<AnswerResults>();
-            //foreach(var result in results)
-            //{
-            //    var answerResult = new AnswerResults
-            //    {
-            //        QuestionId = result.First().que.QuestionId,
-            //        QuestionText = result.First().que.QuestionText,
-            //        ChosenAnswers = new List<ChosenAnswer>()
-            //    };
-            //    foreach(var item in result.GroupBy(x => x.s.AnswerId))
-            //    {
-            //        var answers = new ChosenAnswer
-            //        {
-            //            AnswerId = item.Key,
-            //            AnswerText = item.First().s.AnswerText,
-            //            PercentChosen = item.Count() / result.Count()
-            //        };
-            //        answerResult.ChosenAnswers.Add(answers);
-            //    }
-            //    answerResultList.Add(answerResult);
-            //}
-
-            //return answerResultList;
         }
     }
 }
