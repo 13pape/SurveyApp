@@ -63,7 +63,8 @@ namespace SurveyApp.Analysis
                     {
                         AnswerId = answer.AnswerId,
                         AnswerText = answer.AnswerText, 
-                        PercentChosen = userAnswers.Count(x => x.AnswerId == answer.AnswerId) / totalAnswersForQuestion
+                        //make the result, %
+                        PercentChosen = string.Format("{0:0.0}%", (userAnswers.Count(x => x.AnswerId == answer.AnswerId) / totalAnswersForQuestion) * 100.0)
                     });
                 }
 

@@ -16,6 +16,6 @@ namespace SurveyApp.Analysis
     {
         public int AnswerId { get; set; }
         public string AnswerText { get; set; }
-        public double PercentChosen { get; set; }
+        public string PercentChosen { get; set; }
     }
 }
